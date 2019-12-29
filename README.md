@@ -22,6 +22,10 @@ Just your friendly hacker companion journal written in Go
     - [ ] credentials, authentication...
     - [ ] git lib: https://github.com/src-d/go-git
   - [ ] if there is already a file with today's date, start the editor in append mode
+  - [ ] ability to query entries
+    - [ ] query by date
+    - [ ] file contents
+    - [ ] ...
 - [ ] bootstrap (rails like)
 - [ ] configurable file structure
   - [ ] support for go templates
