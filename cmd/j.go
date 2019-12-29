@@ -22,9 +22,10 @@ var rootCmd = &cobra.Command{
 	Long:  `j should help you be more organized and hopefully remember more things over time.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var err error
+		var f *os.File
 
-		// date format is UNIX
-		today := time.Now().Unix()
+		// format: YYYY-MM-DD
+		today := time.Now().Format("2006-01-02")
 
 		// create HOME folder if it doesn't exist
 		_, err = os.Open(HOME)
@@ -41,16 +42,22 @@ var rootCmd = &cobra.Command{
 
 		// create a file with today's date
 		entryName := fmt.Sprintf("%v/%v", HOME, today)
-		entry, err := os.Create(entryName)
+
+		// if there is an entry already, open the editor in append mode
+		f, err = os.Open(entryName)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(`creating new entry for today`)
+			f, err = os.Create(entryName)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
 		// open the user editor from environment
 
 		// Open the user's editor routine
 		editor := "vim" // get this from the environment, default to... vim?
-		editorCmd := exec.Command(editor, entry.Name())
+		editorCmd := exec.Command(editor, f.Name())
 
 		editorCmd.Stdin = os.Stdin
 		editorCmd.Stdout = os.Stdout
@@ -63,9 +70,9 @@ var rootCmd = &cobra.Command{
 		}
 		err = editorCmd.Wait()
 		if err != nil {
-			log.Printf("Error while editing. Error: %v\n", err)
+			log.Printf("error while editing. Error: %v\n", err)
 		} else {
-			log.Printf("Successfully edited.")
+			log.Printf("changes saved")
 		}
 
 	},
