@@ -39,7 +39,6 @@ It currently supports only VIM.
     -   extract H1 from file and append it to the filename
 
         -   credentials, authentication...
-
         -   git lib: <https://github.com/src-d/go-git>
 
     -   if there is already a file with today's date, start the editor in append mode
