@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"text/template"
 	"time"
 
 	"github.com/refs/j/pkg/journal"
@@ -15,6 +16,11 @@ var (
 	// HOME represents j's home directory
 	HOME = fmt.Sprintf("%v/%v", os.Getenv("HOME"), homeName)
 )
+
+type header struct {
+	Date  string // entry date
+	Count int    // entry number
+}
 
 var rootCmd = &cobra.Command{
 	Use:   "j",
@@ -53,6 +59,14 @@ var rootCmd = &cobra.Command{
 			}
 
 			// prefill the file with the contents of a template (template is ofc configurable)
+			tmpl, err := template.New("header").Parse("date:\t{{.Date}}\n------")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			tmpl.Execute(f, header{
+				Date: today,
+			})
 		}
 
 		journal.OpenEditor(f)
