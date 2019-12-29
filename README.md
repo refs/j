@@ -23,18 +23,33 @@ It currently supports only VIM.
 ## Features
 
 -   throw in some encryption to your pages
+
 -   add some configuration
+
     -   home folder
+
     -   version control
+
     -   distributed storage (integration with distributed database?)
+
     -   editor config option
+
     -   github integration
+
     -   extract H1 from file and append it to the filename
+
         -   credentials, authentication...
+
         -   git lib: <https://github.com/src-d/go-git>
+
     -   if there is already a file with today's date, start the editor in append mode
+
     -   while listing files, dynamically select one for opening
+
     -   make template contents configurable
+
     -   query entries
+
 -   bootstrap (rails like)
+
 -   configurable file structure
