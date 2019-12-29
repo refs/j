@@ -3,6 +3,15 @@
 
 Just your friendly hacker companion journal written in Go
 
+## Usage
+
+```console
+$ go install github.com/refs/j
+$ j
+```
+
+that's it.
+
 ## Gotchas
 
 It currently supports only VIM.
