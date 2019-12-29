@@ -11,24 +11,25 @@ Just your friendly hacker companion journal written in Go
 
 ## Features
 
-- [ ] throw in some encryption to your pages
-- [ ] add some configuration
-  - [ ] home folder
-  - [ ] version control
-  - [ ] distributed storage (integration with distributed database?)
-  - [ ] different modes of operation? - not sure about this
-  - [ ] editor config option
-  - [ ] github integration
-    - [ ] credentials, authentication...
-    - [ ] git lib: https://github.com/src-d/go-git
-  - [ ] if there is already a file with today's date, start the editor in append mode
-  - [ ] while listing files, dynamically select one for opening
-  - [ ] make template contents configurable
-  - [ ] ability to query entries
-    - [ ] query by date
-    - [ ] file contents
-    - [ ] ...
-- [ ] bootstrap (rails like)
-- [ ] configurable file structure
-  - [ ] support for go templates
-  - [ ] yaml maybe? who knows
+- throw in some encryption to your pages
+- add some configuration
+  - home folder
+  - version control
+  - distributed storage (integration with distributed database?)
+  - different modes of operation? - not sure about this
+  - editor config option
+  - github integration
+  - extract H1 from file and append it to the filename
+    - credentials, authentication...
+    - git lib: https://github.com/src-d/go-git
+  - if there is already a file with today's date, start the editor in append mode
+  - while listing files, dynamically select one for opening
+  - make template contents configurable
+  - ability to query entries
+    - query by date
+    - file contents
+    - ...
+- bootstrap (rails like)
+- configurable file structure
+  - support for go templates
+  - yaml maybe? who knows

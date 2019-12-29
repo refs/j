@@ -59,7 +59,7 @@ var rootCmd = &cobra.Command{
 			}
 
 			// prefill the file with the contents of a template (template is ofc configurable)
-			tmpl, err := template.New("header").Parse("date:\t{{.Date}}\n------")
+			tmpl, err := template.New("header").Parse("date:\t{{.Date}}\n------\n\n\n")
 			if err != nil {
 				log.Fatal(err)
 			}

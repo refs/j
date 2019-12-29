@@ -10,7 +10,7 @@ import (
 func OpenEditor(f *os.File) {
 	// Open the user's editor routine
 	editor := "vim" // get this from the environment, default to... vim?
-	editorCmd := exec.Command(editor, f.Name())
+	editorCmd := exec.Command(editor, f.Name(), "+")
 
 	editorCmd.Stdin = os.Stdin
 	editorCmd.Stdout = os.Stdout
@@ -18,7 +18,6 @@ func OpenEditor(f *os.File) {
 
 	err := editorCmd.Start()
 	if err != nil {
-		log.Printf("2")
 		log.Fatal(err)
 	}
 	err = editorCmd.Wait()
