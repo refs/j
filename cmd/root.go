@@ -59,7 +59,7 @@ var rootCmd = &cobra.Command{
 
 // Execute runs the command
 func Execute() {
-	// rootCmd.AddCommand()
+	rootCmd.AddCommand(listCmd)
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
 	}
