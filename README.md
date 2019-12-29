@@ -2,6 +2,17 @@
 
 Just your friendly hacker companion journal written in Go
 
+## Gotchas
+
+It currently supports only VIM.
+
+## Roadmap
+
+- support for version control
+- support encrypted entries
+- configuration
+- support for nano
+
 ## User Journey v0
 
 1. `$ j`
@@ -16,7 +27,6 @@ Just your friendly hacker companion journal written in Go
   - home folder
   - version control
   - distributed storage (integration with distributed database?)
-  - different modes of operation? - not sure about this
   - editor config option
   - github integration
   - extract H1 from file and append it to the filename
@@ -25,11 +35,6 @@ Just your friendly hacker companion journal written in Go
   - if there is already a file with today's date, start the editor in append mode
   - while listing files, dynamically select one for opening
   - make template contents configurable
-  - ability to query entries
-    - query by date
-    - file contents
-    - ...
+  - query entries
 - bootstrap (rails like)
 - configurable file structure
-  - support for go templates
-  - yaml maybe? who knows
