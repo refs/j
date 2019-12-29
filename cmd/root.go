@@ -1,4 +1,4 @@
-package j
+package cmd
 
 import (
 	"fmt"
@@ -59,7 +59,7 @@ var rootCmd = &cobra.Command{
 
 // Execute runs the command
 func Execute() {
-	// add list command
+	// rootCmd.AddCommand()
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
 	}
