@@ -7,7 +7,7 @@ Just your friendly hacker companion journal written in Go
 1. `$ j`
 2. `j` creates a file in J/HOME and opens the user editor (if no editor is provided in config)
 3. start journaling
-4. when saving the file, j commits it to your configured repository
+4. when saving the file, j commits it to your configured repository (if any)
 
 ## Features
 
