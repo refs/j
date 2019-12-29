@@ -51,6 +51,8 @@ var rootCmd = &cobra.Command{
 			if err != nil {
 				log.Fatal(err)
 			}
+
+			// prefill the file with the contents of a template (template is ofc configurable)
 		}
 
 		journal.OpenEditor(f)

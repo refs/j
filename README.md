@@ -23,6 +23,7 @@ Just your friendly hacker companion journal written in Go
     - [ ] git lib: https://github.com/src-d/go-git
   - [ ] if there is already a file with today's date, start the editor in append mode
   - [ ] while listing files, dynamically select one for opening
+  - [ ] make template contents configurable
   - [ ] ability to query entries
     - [ ] query by date
     - [ ] file contents
