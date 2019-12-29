@@ -11,8 +11,9 @@ import (
 )
 
 var (
+	homeName = `.j_entries`
 	// HOME represents j's home directory
-	HOME = fmt.Sprintf("%v/.j_entries", os.Getenv("HOME"))
+	HOME = fmt.Sprintf("%v/%v", os.Getenv("HOME"), homeName)
 )
 
 var rootCmd = &cobra.Command{
