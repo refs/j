@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
 	"time"
 
+	"github.com/refs/j/pkg/journal"
 	"github.com/spf13/cobra"
 )
 
 var (
 	// HOME represents j's home directory
 	// TODO get user's home from environment
-	HOME = "/Users/aunger/.j_entries"
+	HOME = fmt.Sprintf("%v/.j_entries", os.Getenv("HOME"))
 )
 
 var rootCmd = &cobra.Command{
@@ -53,28 +53,7 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		// open the user editor from environment
-
-		// Open the user's editor routine
-		editor := "vim" // get this from the environment, default to... vim?
-		editorCmd := exec.Command(editor, f.Name())
-
-		editorCmd.Stdin = os.Stdin
-		editorCmd.Stdout = os.Stdout
-		editorCmd.Stderr = os.Stderr
-
-		err = editorCmd.Start()
-		if err != nil {
-			log.Printf("2")
-			log.Fatal(err)
-		}
-		err = editorCmd.Wait()
-		if err != nil {
-			log.Printf("error while editing. Error: %v\n", err)
-		} else {
-			log.Printf("changes saved")
-		}
-
+		journal.OpenEditor(f)
 	},
 }
 
