@@ -12,7 +12,6 @@ import (
 
 var (
 	// HOME represents j's home directory
-	// TODO get user's home from environment
 	HOME = fmt.Sprintf("%v/.j_entries", os.Getenv("HOME"))
 )
 
