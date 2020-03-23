@@ -1,7 +1,7 @@
 package journal
 
-// Journaling defines journaling behavior
+// Journaling captures journaling behavior.
 type Journaling interface {
-	// Open creates a new journal entry or opens the current one
+	// Open opens a journal entry.
 	Open()
 }
