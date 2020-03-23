@@ -22,24 +22,17 @@ type J struct {
 
 // Open implements the Journaling interface.
 // opens J.Config.File on $EDITOR and waits for the proccess to end.
-func (j *J) Open() {
+func (j *J) Open() error {
 	cmd := j.cmd()
 
-	f := ensureEntry(j.Config.FileName)
+	j.Config.Format.Template.Execute(
+		ensureEntry(j.Config.FileName),
+		Header{
+			Date: j.Config.Format.Date,
+		},
+	)
 
-	j.Config.Format.Template.Execute(f, Header{
-		Date: j.Config.Format.Date,
-	})
-
-	if err := cmd.Start(); err == nil {
-		if err := cmd.Wait(); err != nil {
-			log.Printf("error while editing. Error: %v\n", err)
-		}
-	} else {
-		log.Fatal(err)
-	}
-
-	log.Printf("changes saved.")
+	return startAndWait(cmd)
 }
 
 func (j *J) cmd() *exec.Cmd {
@@ -68,4 +61,17 @@ func ensureEntry(filename string) *os.File {
 	}
 
 	return f
+}
+
+func startAndWait(c *exec.Cmd) error {
+	if err := c.Start(); err == nil {
+		if err := c.Wait(); err != nil {
+			return err
+		}
+	} else {
+		return err
+	}
+
+	log.Printf("changes saved.")
+	return nil
 }

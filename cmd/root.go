@@ -43,7 +43,9 @@ var rootCmd = &cobra.Command{
 
 		// TODO move this to J's methodset?
 		jrnl.Config.FileName = fmt.Sprintf("%v/%v", jrnl.Config.Home, jrnl.Config.Format.Date)
-		jrnl.Open()
+		if err := jrnl.Open(); err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
