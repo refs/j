@@ -8,8 +8,7 @@ import (
 
 // OpenEditor opens user editor
 func OpenEditor(f *os.File) {
-	// Open the user's editor routine
-	editor := "vim" // get this from the environment, default to... vim?
+	editor := os.Getenv("EDITOR")
 	editorCmd := exec.Command(editor, f.Name(), "+")
 
 	editorCmd.Stdin = os.Stdin
