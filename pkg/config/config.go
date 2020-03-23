@@ -1,6 +1,8 @@
 package config
 
-import "text/template"
+import (
+	"text/template"
+)
 
 // Logging configures logs options.
 type Logging struct {
@@ -16,8 +18,12 @@ type Format struct {
 
 // Config reflects J's configuration.
 type Config struct {
-	Log    Logging
-	Format Format
+	Editor   string
+	Home     string
+	FileName string
+
+	Log    *Logging
+	Format *Format
 }
 
 // New returns a new configuration.
