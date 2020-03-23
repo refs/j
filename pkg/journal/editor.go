@@ -19,6 +19,8 @@ func OpenEditor(f *os.File) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// block until edition is over
 	err = editorCmd.Wait()
 	if err != nil {
 		log.Printf("error while editing. Error: %v\n", err)
