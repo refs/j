@@ -3,7 +3,8 @@ package journal
 // Options are configurable parameters for the Journal.
 type Options struct {
 	// Core
-	Home string
+	Home   string
+	Editor string
 
 	// Logs
 	Color bool
@@ -17,6 +18,13 @@ type Option func(*Options)
 func Home(h string) Option {
 	return func(o *Options) {
 		o.Home = h
+	}
+}
+
+// Editor set J's Editor.
+func Editor(e string) Option {
+	return func(o *Options) {
+		o.Editor = e
 	}
 }
 
