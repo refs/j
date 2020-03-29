@@ -49,7 +49,7 @@ func (j *J) cmd() *exec.Cmd {
 
 // ensureEntry ensures there is an entry available for today.
 func ensureEntry(filename string) *os.File {
-	// if there is an entry already, open the editor in append mode.
+	// if there is an entry already, open the editor.
 	f, err := os.Open(filename)
 	if err != nil {
 		// TODO this SHOULD be a debug message.
