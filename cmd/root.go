@@ -49,6 +49,7 @@ var rootCmd = &cobra.Command{
 	Short: "j is a zero config journaling tool.",
 	Long:  `j should help you be more organized and hopefully remember more things over time.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		// TODO do apply flags
 
 		if err := jrnl.Open(); err != nil {
 			log.Fatal(err)
