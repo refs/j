@@ -42,11 +42,14 @@ func init() {
 	initHome(jrnl)
 }
 
+var cfg = config.New()
+
 var rootCmd = &cobra.Command{
 	Use:   "j",
 	Short: "j is a zero config journaling tool.",
 	Long:  `j should help you be more organized and hopefully remember more things over time.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
 		if err := jrnl.Open(); err != nil {
 			log.Fatal(err)
 		}
@@ -55,6 +58,11 @@ var rootCmd = &cobra.Command{
 
 // Execute runs the command
 func Execute() {
+	rootCmd.Flags().StringVar(&cfg.Home, "home", cfg.Home, "home directory")
+	rootCmd.Flags().StringVar(&cfg.Editor, "editor", cfg.Editor, "default editor (must be accesible on your $PATH)")
+	rootCmd.Flags().StringVar(&cfg.Log.Level, "level", cfg.Log.Level, "log level")
+	rootCmd.Flags().BoolVar(&cfg.Log.Color, "color", cfg.Log.Color, "colored logs")
+
 	rootCmd.AddCommand(listCmd)
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)

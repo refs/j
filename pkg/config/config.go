@@ -28,5 +28,7 @@ type Config struct {
 
 // New returns a new configuration.
 func New() *Config {
-	return &Config{}
+	return &Config{
+		Log: &Logging{},
+	}
 }
