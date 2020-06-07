@@ -1,7 +1,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9cf9f4575f6940f3a3383e66c2b56d4b)](https://www.codacy.com/manual/refs_2/j?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=refs/j&amp;utm_campaign=Badge_Grade)
 # J - A Hacker Journaling Companion written in Go
 
-Just your friendly hacker companion journal written in Go
+Just a friendly hacker companion
 
 ## Usage
 
@@ -21,7 +21,6 @@ It currently supports only VIM.
 -   support for version control
 -   support encrypted entries
 -   configuration
--   support for nano
 
 ## User Journey v0
 
