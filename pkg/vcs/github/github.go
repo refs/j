@@ -35,10 +35,10 @@ func (v *VCS) Create(entry interface{}) error {
 	fileContent := []byte("This is the content of my file\nand the 2nd line of it")
 
 	opts := &github.RepositoryContentFileOptions{
-		Message:   github.String("This is my commit message"),
+		Message:   github.String("revision 1"),
 		Content:   fileContent,
 		Branch:    github.String("master"),
-		Committer: &github.CommitAuthor{Name: github.String("FirstName LastName"), Email: github.String("user@example.com")},
+		Committer: &github.CommitAuthor{Name: github.String("j"), Email: github.String("hello+automation@zyxan.io")},
 	}
 
 	_, _, err := client.Repositories.CreateFile(ctx, "refs", "journaling", "bang.md", opts)
