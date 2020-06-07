@@ -3,8 +3,8 @@
 
 package vcs
 
-// VCS captures behavior that relates to version control
-type VCS interface {
+// Versioner captures behavior that relates to version control.
+type Versioner interface {
 	// Create an entry from version control.
 	Create(entry interface{}) error
 
