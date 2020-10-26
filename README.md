@@ -29,6 +29,8 @@ It currently supports only VIM.
 3.  start journaling
 4.  when saving the file, j commits it to your configured repository (if any)
 
+One of the premises is that editing will only happen for the current entry, this tool will not update older entries.
+
 ## Features
 
 -   throw in some encryption to your pages
