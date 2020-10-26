@@ -2,8 +2,12 @@ package github
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"crypto/sha1"
+	"path/filepath"
 
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
@@ -23,7 +27,7 @@ func init() {
 type VCS struct{}
 
 // Create implements the Versioner interface.
-func (v *VCS) Create(entry interface{}) error {
+func (v *VCS) Commit(path interface{}) error {
 	ctx := context.Background()
 	// we will assume a branch `master` exists.
 	// as test purposes, commit some dummy data to the target repository.
@@ -32,28 +36,52 @@ func (v *VCS) Create(entry interface{}) error {
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	fileContent := []byte("This is the content of my file\nand the 2nd line of it")
-
-	opts := &github.RepositoryContentFileOptions{
-		Message:   github.String("revision 1"),
-		Content:   fileContent,
-		Branch:    github.String("master"),
-		Committer: &github.CommitAuthor{Name: github.String("j"), Email: github.String("hello+automation@zyxan.io")},
-	}
-
-	_, _, err := client.Repositories.CreateFile(ctx, "refs", "journaling", "bang.md", opts)
+	fileContent, err := ioutil.ReadFile(path.(string))
 	if err != nil {
 		return err
 	}
+
+	base := filepath.Base(path.(string))
+
+	opts := &github.RepositoryContentFileOptions{
+		Message:   github.String("revision 2"),
+		Content:   fileContent,
+		Branch:    github.String("master"),
+		Committer: &github.CommitAuthor{Name: github.String("j-bot"), Email: github.String("hello+automation@zyxan.io")},
+		SHA: getHash([]byte(base)),
+	}
+
+	blob, _, err := client.Git.GetBlob(ctx, "refs", "journaling", base)
+	if err != nil && blob.SHA != nil {
+		fmt.Printf("\nblob: %v\n", blob.SHA)
+		return err
+	}
+
+	updateOpts := &github.RepositoryContentFileOptions{
+		Message:   github.String("revision x"),
+		Content:   fileContent,
+		Branch:    github.String("master"),
+		Committer: &github.CommitAuthor{Name: github.String("j-bot"), Email: github.String("hello+automation@zyxan.io")},
+		SHA: &base,
+	}
+
+	_, _, err = client.Repositories.CreateFile(ctx, "refs", "journaling", base, opts)
+	if err != nil {
+		// attempt to update the file
+		_, _, err = client.Repositories.UpdateFile(ctx, "refs", "journaling", base, updateOpts)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
-// Update implements the Versioner interface.
-func (v *VCS) Update(entry interface{}) error {
-	return nil
-}
-
-// Delete implements the Versioner interface.
-func (v *VCS) Delete(entry interface{}) error {
-	return nil
+func getHash(e []byte) *string {
+	t := ""
+	var r = &t
+	h := sha1.New()
+	h.Write(e)
+	*r = base64.URLEncoding.EncodeToString(h.Sum(nil))
+	return r
 }

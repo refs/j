@@ -2,17 +2,17 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/refs/j/pkg/journal/fs"
 	"log"
 	"os"
 	"text/template"
 	"time"
 
 	"github.com/refs/j/pkg/config"
-	"github.com/refs/j/pkg/journal"
 	"github.com/spf13/cobra"
 )
 
-var j *journal.J
+var j *fs.J
 
 func init() {
 	// prefill the file with template.
@@ -21,7 +21,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	j = &journal.J{
+	j = &fs.J{
 		Config: &config.Config{
 			Editor: "vim",
 			// $HOME/.j_entries
@@ -66,7 +66,7 @@ func Execute() {
 	}
 }
 
-func initHome(j *journal.J) {
+func initHome(j *fs.J) {
 	_, err := os.Open(j.Config.Home)
 	if err != nil {
 		fmt.Printf("HOME not found, creating one at %v\n", j.Config.Home)
