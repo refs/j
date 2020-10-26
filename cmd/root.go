@@ -34,7 +34,7 @@ func init() {
 		},
 	}
 
-	j.Config.FileName = fmt.Sprintf("%v/%v", j.Config.Home, j.Config.Format.Date)
+	j.Config.EntryName = fmt.Sprintf("%v/%v", j.Config.Home, j.Config.Format.Date)
 	initHome(j)
 }
 

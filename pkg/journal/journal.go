@@ -1,7 +1,6 @@
 package journal
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -21,24 +20,24 @@ type J struct {
 }
 
 // Open implements the Journaling interface.
-// opens J.Config.File on $EDITOR and waits for the proccess to end.
 func (j *J) Open() error {
-	cmd := j.cmd()
+	cmd := j.prepareCommand()
 
-	j.Config.Format.Template.Execute(
-		ensureEntry(j.Config.FileName),
+	if err := j.Config.Format.Template.Execute(
+		ensureEntry(j.Config.EntryName),
 		Header{
 			Date: j.Config.Format.Date,
 		},
-	)
+	); err != nil {
+		return err
+	}
 
-	return startAndWait(cmd)
+	return run(cmd)
 }
 
-func (j *J) cmd() *exec.Cmd {
-	// calls $Editor with the current filename as first argument.
-	// $ vim 2020-03-23.txt
-	cmd := exec.Command(j.Config.Editor, j.Config.FileName)
+// prepareCommand prepares a command to be executed on the configured editor and entry file.
+func (j J) prepareCommand() *exec.Cmd {
+	cmd := exec.Command(j.Config.Editor, j.Config.EntryName)
 
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
@@ -49,11 +48,9 @@ func (j *J) cmd() *exec.Cmd {
 
 // ensureEntry ensures there is an entry available for today.
 func ensureEntry(filename string) *os.File {
-	// if there is an entry already, open the editor.
 	f, err := os.Open(filename)
 	if err != nil {
-		// TODO this SHOULD be a debug message.
-		fmt.Println(`creating new entry for today`)
+		print(`creating today's entry`)
 		f, err = os.Create(filename)
 		if err != nil {
 			log.Fatal(err)
@@ -63,7 +60,8 @@ func ensureEntry(filename string) *os.File {
 	return f
 }
 
-func startAndWait(c *exec.Cmd) error {
+// run execute command <c> and waits for it to return.
+func run(c *exec.Cmd) error {
 	if err := c.Start(); err == nil {
 		if err := c.Wait(); err != nil {
 			return err
@@ -72,6 +70,6 @@ func startAndWait(c *exec.Cmd) error {
 		return err
 	}
 
-	log.Printf("changes saved.")
+	print("changes saved.")
 	return nil
 }
