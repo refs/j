@@ -1,9 +1,10 @@
 package journal
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"os/exec"
+	"log"
 
 	"github.com/refs/j/pkg/config"
 )
@@ -23,16 +24,40 @@ type J struct {
 func (j *J) Open() error {
 	cmd := j.prepareCommand()
 
-	if err := j.Config.Format.Template.Execute(
-		ensureEntry(j.Config.EntryName),
-		Header{
-			Date: j.Config.Format.Date,
-		},
-	); err != nil {
+	err := j.writeFileHeader()
+	if err != nil {
 		return err
 	}
 
-	return run(cmd)
+	return j.run(cmd)
+}
+
+func (j *J) writeFileHeader() error {
+	if !entryExists(j.Config.EntryName) {
+		if err := j.Config.Format.Template.Execute(
+			ensureEntry(j.Config.EntryName),
+			Header{
+				Date: j.Config.Format.Date,
+			},
+		); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func entryExists(e string) bool {
+	if _, err := os.Open(e); err != nil {
+		return false
+	}
+	return true
+}
+
+
+// Open implements the Journaling interface.
+func (j *J) Close() error {
+	return fmt.Errorf("not implemented")
 }
 
 // prepareCommand prepares a command to be executed on the configured editor and entry file.
@@ -48,22 +73,22 @@ func (j J) prepareCommand() *exec.Cmd {
 
 // ensureEntry ensures there is an entry available for today.
 func ensureEntry(filename string) *os.File {
-	f, err := os.Open(filename)
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
-		print(`creating today's entry`)
-		f, err = os.Create(filename)
-		if err != nil {
-			log.Fatal(err)
-		}
+		log.Fatal(err)
 	}
-
 	return f
 }
 
 // run execute command <c> and waits for it to return.
-func run(c *exec.Cmd) error {
+func (j *J) run(c *exec.Cmd) error {
 	if err := c.Start(); err == nil {
 		if err := c.Wait(); err != nil {
+			return err
+		}
+
+		// start commit routine and commit changes to vsc.
+		if err := commitChanges(); err != nil {
 			return err
 		}
 	} else {
@@ -72,4 +97,8 @@ func run(c *exec.Cmd) error {
 
 	print("changes saved.")
 	return nil
+}
+
+func commitChanges() error {
+	return fmt.Errorf("not implemented")
 }
