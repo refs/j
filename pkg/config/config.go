@@ -18,9 +18,9 @@ type Format struct {
 
 // Config reflects J's configuration.
 type Config struct {
-	Editor   string
-	Home     string
-	FileName string
+	Editor    string // Editor is the default editor. MUST be on your $PATH.
+	Home      string
+	EntryName string
 
 	Log    *Logging
 	Format *Format
